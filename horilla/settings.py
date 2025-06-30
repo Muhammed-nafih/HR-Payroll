@@ -14,24 +14,12 @@ from dotenv import load_dotenv
 # ─── BASE SETUP ────────────────────────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load .env into os.environ
-load_dotenv(BASE_DIR / ".env")
+SECRET_KEY = 'django-insecure-)^qahg-vk9x_lbuin9r_ms&3_=3+-o#3)=bpn$vw7zx5hkw=4c'
 
-# Initialize environ
-env = environ.Env(
-    DEBUG=(bool, False),
-    SECRET_KEY=(str, "horilla-masters"),  # fallback only
-    ALLOWED_HOSTS=(list, ["*"]),
-    CSRF_TRUSTED_ORIGINS=(list, []),
-)
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
 
-# Override from .env
-env.read_env(BASE_DIR / ".env", overwrite=True)
-
-SECRET_KEY = env("SECRET_KEY")
-DEBUG = env("DEBUG")
-ALLOWED_HOSTS = env("ALLOWED_HOSTS")
-CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
+ALLOWED_HOSTS = ['.onrender.com']
 
 # ─── APPLICATIONS & MIDDLEWARE ───────────────────────────────────────────────
 INSTALLED_APPS = [
