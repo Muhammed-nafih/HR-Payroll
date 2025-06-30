@@ -103,25 +103,22 @@ TEMPLATES = [
 WSGI_APPLICATION = "horilla.wsgi.application"
 
 # ─── DATABASE ────────────────────────────────────────────────────────────────
-if os.getenv("DATABASE_URL"):
+if env("DATABASE_URL", default=None):
     DATABASES = {
-        "default": dj_database_url.config(
-            default=os.getenv("DATABASE_URL"),
-            conn_max_age=600,
-            ssl_require=True
-        )
+        "default": env.db(),
     }
 else:
     DATABASES = {
-        "default": {
-            "ENGINE": env("DB_ENGINE", default="django.db.backends.sqlite3"),
-            "NAME": env("DB_NAME", default=BASE_DIR / "db.sqlite3"),
-            "USER": env("DB_USER", default=""),
-            "PASSWORD": env("DB_PASSWORD", default=""),
-            "HOST": env("DB_HOST", default=""),
-            "PORT": env("DB_PORT", default=""),
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'HR_Payroll',
+        'USER': 'postgres',
+        'PASSWORD': 'nafi1234',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
+}
+
 
 # ─── PASSWORD VALIDATION ────────────────────────────────────────────────────
 AUTH_PASSWORD_VALIDATORS = [
