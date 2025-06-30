@@ -103,12 +103,8 @@ TEMPLATES = [
 WSGI_APPLICATION = "horilla.wsgi.application"
 
 # ─── DATABASE ────────────────────────────────────────────────────────────────
-if env("DATABASE_URL", default=None):
-    DATABASES = {
-        "default": env.db(),
-    }
-else:
-    DATABASES = {
+
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'HR_Payroll',
