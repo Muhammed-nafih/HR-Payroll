@@ -104,16 +104,8 @@ WSGI_APPLICATION = "horilla.wsgi.application"
 # ─── DATABASE ────────────────────────────────────────────────────────────────
 
 DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'HR_Payroll',
-            'USER': 'postgres',
-            'PASSWORD': 'nafi1234',
-            'HOST': 'localhost',
-            'PORT': '5432',
-        }
-        
-    }
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+}
 
 
 # ─── PASSWORD VALIDATION ────────────────────────────────────────────────────
