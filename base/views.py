@@ -1466,171 +1466,171 @@ def add_remove_dynamic_fields(request, **kwargs):
 
 
 @login_required
-# @permission_required("base.view_dynamicemailconfiguration")
-# def mail_server_conf(request):
-#     mail_servers = DynamicEmailConfiguration.objects.all()
-#     primary_mail_not_exist = True
-#     if DynamicEmailConfiguration.objects.filter(is_primary=True).exists():
-#         primary_mail_not_exist = False
-#     return render(
-#         request,
-#         "base/mail_server/mail_server.html",
-#         {
-#             "mail_servers": mail_servers,
-#             "primary_mail_not_exist": primary_mail_not_exist,
-#         },
-#     )
+@permission_required("base.view_dynamicemailconfiguration")
+def mail_server_conf(request):
+    mail_servers = DynamicEmailConfiguration.objects.all()
+    primary_mail_not_exist = True
+    if DynamicEmailConfiguration.objects.filter(is_primary=True).exists():
+        primary_mail_not_exist = False
+    return render(
+        request,
+        "base/mail_server/mail_server.html",
+        {
+            "mail_servers": mail_servers,
+            "primary_mail_not_exist": primary_mail_not_exist,
+        },
+    )
 
 
-# @login_required
-# @permission_required("base.view_dynamicemailconfiguration")
-# def mail_server_test_email(request):
-#     instance_id = request.GET.get("instance_id")
-#     form = DynamicMailTestForm()
-#     if request.method == "POST":
-#         form = DynamicMailTestForm(request.POST)
-#         if form.is_valid():
-#             email_to = form.cleaned_data["to_email"]
-#             subject = _("Test mail from Horilla")
+@login_required
+@permission_required("base.view_dynamicemailconfiguration")
+def mail_server_test_email(request):
+    instance_id = request.GET.get("instance_id")
+    form = DynamicMailTestForm()
+    if request.method == "POST":
+        form = DynamicMailTestForm(request.POST)
+        if form.is_valid():
+            email_to = form.cleaned_data["to_email"]
+            subject = _("Test mail from Horilla")
 
-#             # HTML content
-#             html_content = """
-#             <html>
-#                 <body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
-#                     <table align="center" width="600" cellpadding="0" cellspacing="0" border="0" style="border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden;">
-#                         <tr>
-#                             <td align="center" bgcolor="#4CAF50" style="padding: 20px 0;">
-#                                 <h1 style="color: #ffffff; margin: 0;">Horilla</h1>
-#                             </td>
-#                         </tr>
-#                         <tr>
-#                             <td style="padding: 20px;">
-#                                 <h3 style="color: #4CAF50;">Email tested successfully</h3>
-#                                 <b><p style="font-size: 14px;">Hi,<br>
-#                                     This email is being sent as part of mail sever testing from Horilla.</p></b>
-#                                 <img src="cid:unique_image_id" alt="Test Image" style="width: 200px; height: auto; margin: 20px 0;">
-#                             </td>
-#                         </tr>
-#                         <tr>
-#                             <td bgcolor="#f0f0f0" style="padding: 10px; text-align: center;">
-#                                 <p style="font-size: 12px; color: black;">&copy; 2024 Horilla, Inc.</p>
-#                             </td>
-#                         </tr>
-#                     </table>
-#                 </body>
-#             </html>
-#             """
+            # HTML content
+            html_content = """
+            <html>
+                <body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
+                    <table align="center" width="600" cellpadding="0" cellspacing="0" border="0" style="border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden;">
+                        <tr>
+                            <td align="center" bgcolor="#4CAF50" style="padding: 20px 0;">
+                                <h1 style="color: #ffffff; margin: 0;">Horilla</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 20px;">
+                                <h3 style="color: #4CAF50;">Email tested successfully</h3>
+                                <b><p style="font-size: 14px;">Hi,<br>
+                                    This email is being sent as part of mail sever testing from Horilla.</p></b>
+                                <img src="cid:unique_image_id" alt="Test Image" style="width: 200px; height: auto; margin: 20px 0;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#f0f0f0" style="padding: 10px; text-align: center;">
+                                <p style="font-size: 12px; color: black;">&copy; 2024 Horilla, Inc.</p>
+                            </td>
+                        </tr>
+                    </table>
+                </body>
+            </html>
+            """
 
-#             # Plain text content (fallback for email clients that do not support HTML)
-#             text_content = strip_tags(html_content)
+            # Plain text content (fallback for email clients that do not support HTML)
+            text_content = strip_tags(html_content)
 
-#             email_backend = ConfiguredEmailBackend()
-#             emailconfig = DynamicEmailConfiguration.objects.filter(
-#                 id=instance_id
-#             ).first()
-#             email_backend.configuration = emailconfig
+            email_backend = ConfiguredEmailBackend()
+            emailconfig = DynamicEmailConfiguration.objects.filter(
+                id=instance_id
+            ).first()
+            email_backend.configuration = emailconfig
 
-#             try:
-#                 msg = EmailMultiAlternatives(
-#                     subject,
-#                     text_content,
-#                     email_backend.dynamic_from_email_with_display_name,
-#                     [email_to],
-#                     connection=email_backend,
-#                 )
-#                 msg.attach_alternative(html_content, "text/html")
+            try:
+                msg = EmailMultiAlternatives(
+                    subject,
+                    text_content,
+                    email_backend.dynamic_from_email_with_display_name,
+                    [email_to],
+                    connection=email_backend,
+                )
+                msg.attach_alternative(html_content, "text/html")
 
-#                 # Attach the image
-#                 image_path = path.join(
-#                     settings.STATIC_ROOT, "images/ui/horilla-logo.png"
-#                 )
-#                 with open(image_path, "rb") as img:
-#                     msg_img = MIMEImage(img.read())
-#                     msg_img.add_header("Content-ID", "<unique_image_id>")
-#                     msg.attach(msg_img)
+                # Attach the image
+                image_path = path.join(
+                    settings.STATIC_ROOT, "images/ui/horilla-logo.png"
+                )
+                with open(image_path, "rb") as img:
+                    msg_img = MIMEImage(img.read())
+                    msg_img.add_header("Content-ID", "<unique_image_id>")
+                    msg.attach(msg_img)
 
-#                 msg.send()
+                msg.send()
 
-#             except Exception as e:
-#                 messages.error(request, " ".join([_("Something went wrong :"), str(e)]))
-#                 return HttpResponse("<script>window.location.reload()</script>")
+            except Exception as e:
+                messages.error(request, " ".join([_("Something went wrong :"), str(e)]))
+                return HttpResponse("<script>window.location.reload()</script>")
 
-#             messages.success(request, _("Mail sent successfully"))
-#             return HttpResponse("<script>window.location.reload()</script>")
-#     return render(
-#         request,
-#         "base/mail_server/form_email_test.html",
-#         {"form": form, "instance_id": instance_id},
-#     )
-
-
-# @login_required
-# @permission_required("base.delete_dynamicemailconfiguration")
-# def mail_server_delete(request):
-#     """
-#     This method is used to delete mail server
-#     """
-#     ids = request.GET.getlist("ids")
-#     # primary_mail_check
-#     delete = True
-#     for id in ids:
-#         emailconfig = DynamicEmailConfiguration.objects.filter(id=id).first()
-#         if emailconfig.is_primary:
-#             delete = False
-#     if delete:
-#         DynamicEmailConfiguration.objects.filter(id__in=ids).delete()
-#         messages.success(request, "Mail server configuration deleted")
-#         return HttpResponse("<script>window.location.reload()</script>")
-#     else:
-#         if DynamicEmailConfiguration.objects.all().count() == 1:
-#             messages.warning(
-#                 request,
-#                 "You have only 1 Mail server configuration that can't be deleted",
-#             )
-#             return HttpResponse("<script>window.location.reload()</script>")
-#         else:
-#             mails = DynamicEmailConfiguration.objects.all().exclude(is_primary=True)
-#             return render(
-#                 request,
-#                 "base/mail_server/replace_mail.html",
-#                 {
-#                     "mails": mails,
-#                     "title": _("Can't Delete"),
-#                 },
-#             )
+            messages.success(request, _("Mail sent successfully"))
+            return HttpResponse("<script>window.location.reload()</script>")
+    return render(
+        request,
+        "base/mail_server/form_email_test.html",
+        {"form": form, "instance_id": instance_id},
+    )
 
 
-# def replace_primary_mail(request):
-#     """
-#     This method is used to replace primary mail server
-#     """
-#     emailconfig_id = request.POST.get("replace_mail")
-#     email_config = DynamicEmailConfiguration.objects.get(id=emailconfig_id)
-#     email_config.is_primary = True
-#     email_config.save()
-#     DynamicEmailConfiguration.objects.filter(is_primary=True).first().delete()
+@login_required
+@permission_required("base.delete_dynamicemailconfiguration")
+def mail_server_delete(request):
+    """
+    This method is used to delete mail server
+    """
+    ids = request.GET.getlist("ids")
+    # primary_mail_check
+    delete = True
+    for id in ids:
+        emailconfig = DynamicEmailConfiguration.objects.filter(id=id).first()
+        if emailconfig.is_primary:
+            delete = False
+    if delete:
+        DynamicEmailConfiguration.objects.filter(id__in=ids).delete()
+        messages.success(request, "Mail server configuration deleted")
+        return HttpResponse("<script>window.location.reload()</script>")
+    else:
+        if DynamicEmailConfiguration.objects.all().count() == 1:
+            messages.warning(
+                request,
+                "You have only 1 Mail server configuration that can't be deleted",
+            )
+            return HttpResponse("<script>window.location.reload()</script>")
+        else:
+            mails = DynamicEmailConfiguration.objects.all().exclude(is_primary=True)
+            return render(
+                request,
+                "base/mail_server/replace_mail.html",
+                {
+                    "mails": mails,
+                    "title": _("Can't Delete"),
+                },
+            )
 
-#     messages.success(request, "Primary Mail server configuration replaced")
-#     return redirect("mail-server-conf")
+
+def replace_primary_mail(request):
+    """
+    This method is used to replace primary mail server
+    """
+    emailconfig_id = request.POST.get("replace_mail")
+    email_config = DynamicEmailConfiguration.objects.get(id=emailconfig_id)
+    email_config.is_primary = True
+    email_config.save()
+    DynamicEmailConfiguration.objects.filter(is_primary=True).first().delete()
+
+    messages.success(request, "Primary Mail server configuration replaced")
+    return redirect("mail-server-conf")
 
 
-# @login_required
-# @hx_request_required
-# @permission_required("base.add_dynamicemailconfiguration")
-# def mail_server_create_or_update(request):
-#     instance_id = request.GET.get("instance_id")
-#     instance = None
-#     if instance_id:
-#         instance = DynamicEmailConfiguration.objects.filter(id=instance_id).first()
-#     form = DynamicMailConfForm(instance=instance)
-#     if request.method == "POST":
-#         form = DynamicMailConfForm(request.POST, instance=instance)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponse("<script>window.location.reload()</script>")
-#     return render(
-#         request, "base/mail_server/form.html", {"form": form, "instance": instance}
-#     )
+@login_required
+@hx_request_required
+@permission_required("base.add_dynamicemailconfiguration")
+def mail_server_create_or_update(request):
+    instance_id = request.GET.get("instance_id")
+    instance = None
+    if instance_id:
+        instance = DynamicEmailConfiguration.objects.filter(id=instance_id).first()
+    form = DynamicMailConfForm(instance=instance)
+    if request.method == "POST":
+        form = DynamicMailConfForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return HttpResponse("<script>window.location.reload()</script>")
+    return render(
+        request, "base/mail_server/form.html", {"form": form, "instance": instance}
+    )
 
 
 @login_required
