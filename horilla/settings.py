@@ -32,9 +32,16 @@ SECRET_KEY = 'django-insecure-)^qahg-vk9x_lbuin9r_ms&3_=3+-o#3)=bpn$vw7zx5hkw=4c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['.onrender.com']
+ALLOWED_HOSTS = [
+    '.onrender.com',  # Your Render domain
+    'localhost',
+    '127.0.0.1'
+]
 
-CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
+CSRF_TRUSTED_ORIGINS = [
+    'https://orbivaulthrpayroll.onrender.com',
+    'http://localhost:8000'
+]
 
 # ─── APPLICATIONS & MIDDLEWARE ───────────────────────────────────────────────
 INSTALLED_APPS = [
@@ -101,22 +108,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "horilla.wsgi.application"
 
-if env("DATABASE_URL", default=None):
-    DATABASES = {
-        "default": env.db(),
-    }
-else:
-    DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': 'HR_Payroll',
-                'USER': 'postgres',
-                'PASSWORD': 'nafi1234',
-                'HOST': 'localhost',
-                'PORT': '5432',
-            }
-            
-        }
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
+}
 
 
 
