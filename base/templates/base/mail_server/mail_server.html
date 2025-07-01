@@ -1,11 +1,11 @@
 {% extends 'settings.html' %} {% load i18n %} {% block settings %}{% load static %}
 <div class="oh-inner-sidebar-content">
-	{% if perms.base.view_dynamicemailconfiguration %}
+	{% comment %} {% if perms.base.view_dynamicemailconfiguration %} {% endcomment %}
 	<div
 		class="oh-inner-sidebar-content__header d-flex justify-content-between align-items-center"
 	>
 		<h2 class="oh-inner-sidebar-content__title">{% trans "Mail Servers" %}</h2>
-		{% if perms.base.add_dynamicemailconfiguration %}
+		{% comment %} {% if perms.base.add_dynamicemailconfiguration %} {% endcomment %}
 			<button
 				class="oh-btn oh-btn--secondary oh-btn--shadow"
 				data-toggle="oh-modal-toggle"

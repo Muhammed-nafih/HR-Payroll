@@ -111,7 +111,7 @@
 												{% endif %}
 											</div>
 											<div class="oh-input-group">
-												{% if perms.base.view_dynamicemailconfiguration %}
+												{% comment %} {% if perms.base.view_dynamicemailconfiguration %} {% endcomment %}
 													<a
 														id="date"
 														href="{% url 'mail-server-conf' %}"

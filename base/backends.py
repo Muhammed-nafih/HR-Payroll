@@ -58,20 +58,20 @@ class DefaultHorillaMailBackend(EmailBackend):
             **kwargs,
         )
 
-    @staticmethod
-    def get_dynamic_email_config():
-        request = getattr(_thread_locals, "request", None)
-        company = None
-        if request and not request.user.is_anonymous:
-            company = request.user.employee_get.get_company()
-        configuration = DynamicEmailConfiguration.objects.filter(
-            company_id=company
-        ).first()
-        if configuration is None:
-            configuration = DynamicEmailConfiguration.objects.filter(
-                is_primary=True
-            ).first()
-        return configuration
+    # @staticmethod
+    # def get_dynamic_email_config():
+    #     request = getattr(_thread_locals, "request", None)
+    #     company = None
+    #     if request and not request.user.is_anonymous:
+    #         company = request.user.employee_get.get_company()
+    #     configuration = DynamicEmailConfiguration.objects.filter(
+    #         company_id=company
+    #     ).first()
+    #     if configuration is None:
+    #         configuration = DynamicEmailConfiguration.objects.filter(
+    #             is_primary=True
+    #         ).first()
+    #     return configuration
 
     @property
     def dynamic_host(self):
