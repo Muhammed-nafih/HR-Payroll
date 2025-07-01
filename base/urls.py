@@ -144,21 +144,21 @@ urlpatterns = [
         views.permission_table,
         name="permission-table",
     ),
-    path("settings/mail-server-conf/", views.mail_server_conf, name="mail-server-conf"),
-    path(
-        "settings/mail-server-create-update/",
-        views.mail_server_create_or_update,
-        name="mail-server-create-update",
-    ),
-    path(
-        "settings/mail-server-test-email/",
-        views.mail_server_test_email,
-        name="mail-server-test-email",
-    ),
-    path("mail-server-delete", views.mail_server_delete, name="mail-server-delete"),
-    path(
-        "replace-primary-mail", views.replace_primary_mail, name="replace-primary-mail"
-    ),
+    # path("settings/mail-server-conf/", views.mail_server_conf, name="mail-server-conf"),
+    # path(
+    #     "settings/mail-server-create-update/",
+    #     views.mail_server_create_or_update,
+    #     name="mail-server-create-update",
+    # ),
+    # path(
+    #     "settings/mail-server-test-email/",
+    #     views.mail_server_test_email,
+    #     name="mail-server-test-email",
+    # ),
+    # path("mail-server-delete", views.mail_server_delete, name="mail-server-delete"),
+    # path(
+    #     "replace-primary-mail", views.replace_primary_mail, name="replace-primary-mail"
+    # ),
     path(
         "configuration/view-mail-templates/",
         views.view_mail_templates,
