@@ -102,8 +102,8 @@ TEMPLATES = [
 WSGI_APPLICATION = "horilla.wsgi.application"
 
 # ─── DATABASE ────────────────────────────────────────────────────────────────
-if DEBUG:
-    DATABASES = {
+
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'HR_Payroll',
@@ -113,10 +113,6 @@ if DEBUG:
             'PORT': '5432',
         }
         
-    }
-else:
-    DATABASES = {
-        'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
     }
 
 
