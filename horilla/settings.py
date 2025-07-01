@@ -101,8 +101,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "horilla.wsgi.application"
 
-# ─── DATABASE ────────────────────────────────────────────────────────────────
-if DEBUG:
+if env("DATABASE_URL", default=None):
+    DATABASES = {
+        "default": env.db(),
+    }
+else:
     DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.postgresql',
@@ -114,10 +117,7 @@ if DEBUG:
             }
             
         }
-else:
-    DATABASES = {
-        'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
-    }
+
 
 
 # ─── PASSWORD VALIDATION ────────────────────────────────────────────────────
